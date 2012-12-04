@@ -1,0 +1,144 @@
+body{
+	background-color: #101010;
+	font-family: Segoe UI, sans-serif;
+    font-size: 25px;
+	color: white;
+}
+
+.content{
+	width: 450px;
+	height: 450px;
+    margin: auto;
+	margin-top: 30px;
+}
+a:hover{
+	background-color: fff;
+
+}
+#headertext{
+	font-size: 35px;
+	color: #fff;
+	text-align: center;
+	letter-spacing: 35px;
+	margin: auto ;
+	display: block;
+	margin-top: 20px;
+}
+
+#tagline{
+    font-size: 15px;
+    display: block;
+	margin-left: 45%;
+	letter-spacing: 10px;
+	color: #888;
+}
+
+#blog {
+	display: block;
+	height: 150px;
+	width: 150px;
+    text-decoration: none;
+	color: #fff;
+	margin: 5px;
+	float: left;
+	background-color: #53A6CF;
+	padding: 5px;
+	word-spacing: 120px;
+	cursor: pointer;
+}
+
+
+#code{
+	display: block;
+	height: 150px;
+	width: 150px;
+
+	text-decoration: none;
+	color: #fff;
+    background-color: #6EB84A;
+	margin: 5px;
+	float:left;
+	padding: 5px;
+    word-spacing:100px;
+}
+#Google{
+	display: block;
+	height: 150px;
+	width: 150px;
+	text-decoration: none;
+	color: #fff;
+	margin: 5px;
+	float:left;
+	background-color: #788F32;
+	padding: 5px;
+    word-spacing:100px;
+}
+
+#who{
+	display: block;
+	height: 150px;
+	width: 150px;
+	text-decoration: none;
+	color: #fff;
+	margin: 5px;
+	float: left;
+	background-color: #5CB8E6;
+	padding: 5px;
+    word-spacing:150px;
+}
+
+#link{
+	display: block;
+	height: 130px;
+	width: 320px;
+	text-decoration: none;
+	color: #fff;
+	margin: 5px;
+	float: left;
+	background-color: #555;
+	padding: 5px;
+    word-spacing:250px;
+}
+ 
+
+#blog:hover{
+	/*background-color: #fff;*/
+    opacity: 0.8;
+    -moz-transition-property : opacity; 
+    -moz-transition-duration : 0.5s;
+    -webkit-transition: opacity 0.5s;
+
+}
+#code:hover{
+	/*background-color: #fff;*/
+    opacity: 0.8;
+    -moz-transition-property : opacity; 
+    -moz-transition-duration : 0.5s;
+    -webkit-transition: opacity 0.5s;
+}
+#Google:hover{
+	/*background-color: #fff;*/
+    opacity: 0.8;
+    -moz-transition-property : opacity; 
+    -moz-transition-duration : 0.5s;
+    -webkit-transition: opacity 0.5s;
+}
+#who:hover{
+	/*background-color: #fff;*/
+    opacity: 0.8;
+    -moz-transition-property : opacity; 
+    -moz-transition-duration : 0.5s;
+    -webkit-transition: opacity 0.5s;
+}
+
+#link:hover{
+	/*background-color: #fff;*/
+    opacity: 0.8;
+    -moz-transition-property : opacity; 
+    -moz-transition-duration : 0.5s;
+    -webkit-transition: opacity 0.5s;
+}
+
+.blog-sheet{
+    color: #333; !important
+}
