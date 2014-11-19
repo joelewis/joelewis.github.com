@@ -9,6 +9,11 @@
     <!-- Bootstrap -->
     <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./custom.css" rel="stylesheet">
+    <!-- start Mixpanel -->
+    <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+    for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+    mixpanel.init("a33b3621dc86b32b59cf4cfa5fbadcca");</script>
+    <!-- end Mixpanel -->
   </head>
   <body>
     <div class="container">
@@ -16,12 +21,12 @@
         <div class="jumbotron jumbotron-custom">
           <p>Joe is a hacker, who writes code for awesome softwares right from his messy room somewhere in the south of Chennai, India. </p>
           <p>Mostly, he codes out of IITM Research Park's Incubator, where he and two others are building a nextGen Document Platform called Humble Paper.</p>
-          <p>When not coding, he usually sleeps. Or grabs junk food and watches movies.</p> 
+          <p>When not coding, he usually sleeps. Or grabs junk food and watches movies.</p>
         </div>
       </div>
       <div class="row">
-        
-        <div class="link-item">
+
+        <div class="link-item" onclick="mixpanel.track('Github Visit');">
           <a href="http://github.com/joelewis">
             <div class="link-item-title">
               Code
@@ -32,7 +37,7 @@
            </a>
         </div>
 
-        <div class="link-item">
+        <div class="link-item" onclick="mixpanel.track('Blog Visit');">
           <a href="http://techster.herokuapp.com">
             <div class="link-item-title">
               Blog
@@ -43,7 +48,7 @@
            </a>
         </div>
 
-        <div class="link-item">
+        <div class="link-item" onclick="mixpanel.track('Twitter visit');">
           <a href="https://twitter.com/vettijoe">
             <div class="link-item-title">
               Twitter
@@ -53,8 +58,8 @@
             </div>
            </a>
         </div>
-        
-        <div class="link-item" style="width: 400px;">
+
+        <div class="link-item" style="width: 400px;" onclick="mixpanel.track('Old Blog Visit');">
           <a href="http://joelevis.wordpress.com">
             <div class="link-item-title" style="color: #888">
               Very Old Blog
@@ -77,7 +82,7 @@
       $('body').hide();
       $('body').fadeIn(500);
     });
-      
+
     </script>
   </body>
 </html>
