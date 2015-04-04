@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2015/03/02/this-guy/</loc>
+    <lastmod>2015-03-02T12:28:06+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2015/02/22/scratch/</loc>
+    <lastmod>2015-02-22T01:48:51+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2015/02/16/log-16/</loc>
+    <lastmod>2015-02-16T23:11:05+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/12/08/c-code-for-barebones-kernel-tutorial-at-osdev-dot-org-explained/</loc>
+    <lastmod>2014-12-08T21:15:35+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/12/08/installing-qemu-with-brew/</loc>
+    <lastmod>2014-12-08T00:20:46+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/11/16/introducing-a-little-more-entropy/</loc>
+    <lastmod>2014-11-16T23:41:53+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/10/12/public-data-of-public-officials/</loc>
+    <lastmod>2014-10-12T02:36:42+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/10/12/devlog-6/</loc>
+    <lastmod>2014-10-12T01:15:38+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/08/10/scala-up/</loc>
+    <lastmod>2014-08-10T14:42:06+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/08/04/x-frame-options/</loc>
+    <lastmod>2014-08-04T01:19:34+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/08/03/why-should-osdev-dot-org-be-so-initimidating/</loc>
+    <lastmod>2014-08-03T22:02:39+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/2014/07/18/i-support-jsonresume-project/</loc>
+    <lastmod>2014-07-18T00:27:23+05:30</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  
+  <url>
+    <loc>http://techster.herokuapp.com/blog/archives/</loc>
+    <lastmod>2015-03-04T02:50:42+05:30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://techster.herokuapp.com/</loc>
+    <lastmod>2015-03-04T02:50:42+05:30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  
+</urlset>
