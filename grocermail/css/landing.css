@@ -1,0 +1,30 @@
+body {
+  background-color: #ECF0F1;
+}
+
+
+
+.grocermail-subtitle {
+  color: #f9f9f9;
+  font-size: 27px;
+  font-weight: lighter;
+  width: 30%;
+  text-align: center;
+  margin-top : 46px;
+}
+
+
+.brand-dotcom {
+  position: relative;
+  top: 23px;
+  left: 511px;
+  color: #fff;
+  font-size: 24px;
+}
+
+
+.letmeknow {
+  background: #343434;
+  border: 1px solid #08c;
+  border-right: none;
+}
