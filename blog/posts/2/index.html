@@ -9,8 +9,7 @@
   <meta name="author" content="Joe Lewis">
 
   
-  <meta name="description" content="So, all you want is to just get a deeper insight into your machine.
-You just wanted to understand the very process of computing or how the heap of &hellip;">
+  <meta name="description" content="Understanding the barebone C kernel, presented at http://wiki.osdev.org/Bare_Bones was not easy for me. It took a lot of gazing down the screen and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +77,822 @@ You just wanted to understand the very process of computing or how the heap of &
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/08/c-code-for-barebones-kernel-tutorial-at-osdev-dot-org-explained/">C Code for Barebones Kernel Tutorial @ OsDev.org - Explained</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-08T21:15:35+05:30" pubdate data-updated="true">Dec 8<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Understanding the barebone C kernel, presented at <a href="http://wiki.osdev.org/Bare_Bones">http://wiki.osdev.org/Bare_Bones</a> was not easy for me. It took a lot of gazing down the screen and WTFs. But finally, it made perfect sense. I&rsquo;ll write down whatever I wish I&rsquo;d known before landing up there.</p>
+
+<p>There are types in C that you don&rsquo;t normally see in a fibonacci program or a demo bank application program. There is a type called <code>size_t</code>, that takes just enough bytes for holding size related values. Comes in very handy when counting or measuring things.</p>
+
+<p>There are variation of int types like <code>uint8_t</code> and <code>uint16_t</code>, declared in <code>&lt;stdint.h&gt;</code>. Like the name suggests they occupy exactly 8 bits(1 byte) and 16 bits(2 bytes) respectively each. So you&rsquo;ve got just the datatypes, that you need to perform bit level operations.</p>
+
+<p>For example, the VGA text mode buffer takes 2 bytes to print a given character on the terminal.
+2 bytes ==> 8 + 8 bits ==> 0000 0000 0000 0000</p>
+
+<p>The first 8 bits denote the 8bit ASCII code of the actual char to be printed. The following 8bits define the color attribute of the char. The grammer for those trailing 8 bits is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     0000              0010                 // 0000 =&gt; 0 denotes black color
+</span><span class='line'>      |                 |                   // 0010 =&gt; 2 denotes green color
+</span><span class='line'>   background         foreground
+</span><span class='line'>     color              color
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The char code for &lsquo;h&rsquo; is 104 ==> 01101000</p>
+
+<p>Now, to print &lsquo;h&rsquo; on the screen with black as background and green as font color(foreground), you need a total of 2 bytes represented as:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>01101000 0000 0010
+</span><span class='line'>   |       |    |
+</span><span class='line'>  char    bg    fg</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cool, now all that&rsquo;s left is to assign it to a variable of some type that takes exactly 16 bits. Yes, <code>uint16_t</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// 0110100000000010 ==&gt; 0x6802(hex)
+</span><span class='line'>uint16_t character_h_in_green = 0x6802;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Writing the variable to the physical address 0xB8000, will print the letter on screen &ndash; at row 0 &amp; column 0.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>uint16_t character_h_in_green = 0x6802;
+</span><span class='line'>uint16_t* vga_buffer = ( uint16_t* ) 0xB8000;
+</span><span class='line'>vga_buffer[0] = character_h_in_green;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Your kernel&rsquo;s main function can have only those three lines, and it would print &lsquo;h&rsquo; on the screen.</p>
+
+<p>The VGA memory buffer looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>B8000 B8002 B8004 B8006 - - - - - - - - - - - - - - B80A0 | 80 columns
+</span><span class='line'>B80A2 B80A4 B80A6 - - - - - - - - - - - - - - - - - - -   |
+</span><span class='line'>  -
+</span><span class='line'>  -
+</span><span class='line'>------
+</span><span class='line'>25 rows
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The frame gives a view of which address to write the next character to.</p>
+
+<p>As you can see, all it takes is a bit of math and a math of bits to code a simple driver that puts characters onto the terminal. That&rsquo;s what the C code given there is about.</p>
+
+<p>For a glimpse &ndash; below is the actual code for the <em>Hello World</em> kernel from OsDev&rsquo;s barebones tutorial.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#if !defined(__cplusplus)
+</span><span class='line'>#include &lt;stdbool.h&gt; /* C doesn't have booleans by default. */
+</span><span class='line'>#endif
+</span><span class='line'>#include &lt;stddef.h&gt;
+</span><span class='line'>#include &lt;stdint.h&gt;
+</span><span class='line'>
+</span><span class='line'>/* Check if the compiler thinks if we are targeting the wrong operating system. */
+</span><span class='line'>#if defined(__linux__)
+</span><span class='line'>#error "You are not using a cross-compiler, you will most certainly run into trouble"
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>/* This tutorial will only work for the 32-bit ix86 targets. */
+</span><span class='line'>#if !defined(__i386__)
+</span><span class='line'>#error "This tutorial needs to be compiled with a ix86-elf compiler"
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>/* Hardware text mode color constants. */
+</span><span class='line'>enum vga_color
+</span><span class='line'>{
+</span><span class='line'>  COLOR_BLACK = 0,
+</span><span class='line'>  COLOR_BLUE = 1,
+</span><span class='line'>  COLOR_GREEN = 2,
+</span><span class='line'>  COLOR_CYAN = 3,
+</span><span class='line'>  COLOR_RED = 4,
+</span><span class='line'>  COLOR_MAGENTA = 5,
+</span><span class='line'>  COLOR_BROWN = 6,
+</span><span class='line'>  COLOR_LIGHT_GREY = 7,
+</span><span class='line'>  COLOR_DARK_GREY = 8,
+</span><span class='line'>  COLOR_LIGHT_BLUE = 9,
+</span><span class='line'>  COLOR_LIGHT_GREEN = 10,
+</span><span class='line'>  COLOR_LIGHT_CYAN = 11,
+</span><span class='line'>  COLOR_LIGHT_RED = 12,
+</span><span class='line'>  COLOR_LIGHT_MAGENTA = 13,
+</span><span class='line'>  COLOR_LIGHT_BROWN = 14,
+</span><span class='line'>  COLOR_WHITE = 15,
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>uint8_t make_color(enum vga_color fg, enum vga_color bg)
+</span><span class='line'>{
+</span><span class='line'>  return fg | bg &lt;&lt; 4;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>uint16_t make_vgaentry(char c, uint8_t color)
+</span><span class='line'>{
+</span><span class='line'>  uint16_t c16 = c;
+</span><span class='line'>  uint16_t color16 = color;
+</span><span class='line'>  return c16 | color16 &lt;&lt; 8;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>size_t strlen(const char* str)
+</span><span class='line'>{
+</span><span class='line'>  size_t ret = 0;
+</span><span class='line'>  while ( str[ret] != 0 )
+</span><span class='line'>  ret++;
+</span><span class='line'>  return ret;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>static const size_t VGA_WIDTH = 80;
+</span><span class='line'>static const size_t VGA_HEIGHT = 25;
+</span><span class='line'>
+</span><span class='line'>size_t terminal_row;
+</span><span class='line'>size_t terminal_column;
+</span><span class='line'>uint8_t terminal_color;
+</span><span class='line'>uint16_t* terminal_buffer;
+</span><span class='line'>
+</span><span class='line'>void terminal_initialize()
+</span><span class='line'>{
+</span><span class='line'>  terminal_row = 0;
+</span><span class='line'>  terminal_column = 0;
+</span><span class='line'>  terminal_color = make_color(COLOR_LIGHT_GREY, COLOR_BLACK);
+</span><span class='line'>  terminal_buffer = (uint16_t*) 0xB8000;
+</span><span class='line'>  for ( size_t y = 0; y &lt; VGA_HEIGHT; y++ )
+</span><span class='line'>  {
+</span><span class='line'>    for ( size_t x = 0; x &lt; VGA_WIDTH; x++ )
+</span><span class='line'>    {
+</span><span class='line'>      const size_t index = y * VGA_WIDTH + x;
+</span><span class='line'>      terminal_buffer[index] = make_vgaentry(' ', terminal_color);
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>void terminal_setcolor(uint8_t color)
+</span><span class='line'>{
+</span><span class='line'>  terminal_color = color;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
+</span><span class='line'>{
+</span><span class='line'>  const size_t index = y * VGA_WIDTH + x;
+</span><span class='line'>  terminal_buffer[index] = make_vgaentry(c, color);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>void terminal_putchar(char c)
+</span><span class='line'>{
+</span><span class='line'>  terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+</span><span class='line'>  if ( ++terminal_column == VGA_WIDTH )
+</span><span class='line'>  {
+</span><span class='line'>    terminal_column = 0;
+</span><span class='line'>    if ( ++terminal_row == VGA_HEIGHT )
+</span><span class='line'>    {
+</span><span class='line'>      terminal_row = 0;
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>void terminal_writestring(const char* data)
+</span><span class='line'>{
+</span><span class='line'>  size_t datalen = strlen(data);
+</span><span class='line'>  for ( size_t i = 0; i &lt; datalen; i++ )
+</span><span class='line'>  terminal_putchar(data[i]);
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>#if defined(__cplusplus)
+</span><span class='line'>extern "C" /* Use C linkage for kernel_main. */
+</span><span class='line'>#endif
+</span><span class='line'>void kernel_main()
+</span><span class='line'>{
+</span><span class='line'>  terminal_initialize();
+</span><span class='line'>  /* Since there is no support for newlines in terminal_putchar yet, \n will
+</span><span class='line'>  produce some VGA specific character instead. This is normal. */
+</span><span class='line'>  terminal_writestring("Hello, kernel World!\n");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ve written a version of the same kernel, that gets rid of <em>weird</em> C types and uses <code>char</code> for pretty much everything. Here it is &ndash;</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include &lt;stddef.h&gt;
+</span><span class='line'>#include &lt;stdint.h&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#if defined(__linux__)
+</span><span class='line'>#error "You are not using a cross compiler. Good luck with your attempt!"
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>#if !defined(__i386)
+</span><span class='line'>#error "This program needs to be compiled with a ix86-elf compiler"
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>// helper func
+</span><span class='line'>size_t strlen(const char* str) {
+</span><span class='line'>  size_t ret = 0;
+</span><span class='line'>  while ( str[ret] != 0 )
+</span><span class='line'>  ret++;
+</span><span class='line'>  return ret;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>static const size_t VGA_WIDTH = 80; // 80 chars long
+</span><span class='line'>static const size_t VGA_HEIGHT = 25; // 25 chars tall
+</span><span class='line'>
+</span><span class='line'>unsigned int terminal_x;
+</span><span class='line'>unsigned int terminal_y;
+</span><span class='line'>char* vga_buffer;
+</span><span class='line'>
+</span><span class='line'>void terminal_init() {
+</span><span class='line'>  terminal_x = 0;
+</span><span class='line'>  terminal_y = 0;
+</span><span class='line'>  unsigned int index = 0;
+</span><span class='line'>  // terminal_color = make_color(COLOR_LIGHT_GREY, COLOR_BLACK);
+</span><span class='line'>  vga_buffer = (char*) 0xB8000;
+</span><span class='line'>  while ( index &lt; VGA_WIDTH * VGA_HEIGHT * 2 ) {
+</span><span class='line'>    vga_buffer[index] = ' ';
+</span><span class='line'>    vga_buffer[index+1] = 0x17;
+</span><span class='line'>    index+=2;
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>void terminal_putchar(char c) {
+</span><span class='line'>  unsigned int index = terminal_y * VGA_WIDTH + terminal_x; // get current index
+</span><span class='line'>  vga_buffer[index] = c;
+</span><span class='line'>  vga_buffer[index+1] = 0x17;
+</span><span class='line'>  // increment terminal_x && terminal_y to point to new position to put the next char
+</span><span class='line'>  terminal_x+=2;
+</span><span class='line'>  if ( terminal_x == VGA_WIDTH*2 ) {
+</span><span class='line'>    terminal_x = 0;
+</span><span class='line'>    terminal_y+=2;
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>void terminal_writestr(char* data) {
+</span><span class='line'>  for ( size_t i=0; i&lt;strlen(data); i++ ) {
+</span><span class='line'>    terminal_putchar(data[i]);
+</span><span class='line'>  }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>void kernel_main() {
+</span><span class='line'>  terminal_init();
+</span><span class='line'>  terminal_writestr("Hello, joe!");
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is what I got &ndash;
+<img src="/images/os1.png" alt="Grub" />
+<img src="/images/os2.png" alt="Grub" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/08/installing-qemu-with-brew/">Installing Qemu With Brew</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-08T00:20:46+05:30" pubdate data-updated="true">Dec 8<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Installing Qemu with system shipped <em>brew</em> works well. What doesn&rsquo;t work is using the binary.
+Running <code>qemu-system-i386</code> on my terminal crashed with this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dyld: Library not loaded: /usr/local/lib/libgthread-2.0.0.dylib
+</span><span class='line'>Referenced from: /usr/local/bin/qemu-system-i386
+</span><span class='line'>Reason: image not found
+</span><span class='line'>Trace/BPT trap: 5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Doesn&rsquo;t seem like a commmon problem since google doesn&rsquo;t show any trace. With a bounded knowledge on how stuff work on mac, here&rsquo;s a fix that worked for me.</p>
+
+<p>To find where is it looking for the missing <em>.dylib</em> files, run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>otool -L `which qemu-system-i386`</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is what I got in my machine:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/bin/qemu-system-i386:
+</span><span class='line'>  /System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation (compatibility version 150.0.0, current version 855.17.0)
+</span><span class='line'>  /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)
+</span><span class='line'>  /usr/lib/libz.1.dylib (compatibility version 1.0.0, current version 1.2.5)
+</span><span class='line'>  /usr/lib/libcurl.4.dylib (compatibility version 7.0.0, current version 8.0.0)
+</span><span class='line'>  /usr/local/lib/libgthread-2.0.0.dylib (compatibility version 4201.0.0, current version 4201.0.0)
+</span><span class='line'>  /usr/local/lib/libglib-2.0.0.dylib (compatibility version 4201.0.0, current version 4201.0.0)
+</span><span class='line'>  /usr/local/opt/gettext/lib/libintl.8.dylib (compatibility version 10.0.0, current version 10.2.0)
+</span><span class='line'>  /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+</span><span class='line'>  /System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio (compatibility version 1.0.0, current version 1.0.0)
+</span><span class='line'>  /usr/local/lib/libjpeg.8.dylib (compatibility version 13.0.0, current version 13.0.0)
+</span><span class='line'>  /usr/lib/libsasl2.2.dylib (compatibility version 3.0.0, current version 3.15.0)
+</span><span class='line'>  /usr/local/lib/libgnutls.28.dylib (compatibility version 59.0.0, current version 59.8.0)
+</span><span class='line'>  /System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa (compatibility version 1.0.0, current version 20.0.0)
+</span><span class='line'>  /usr/local/lib/libpixman-1.0.dylib (compatibility version 33.0.0, current version 33.6.0)
+</span><span class='line'>  /usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 120.0.0)
+</span><span class='line'>  /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1197.1.1)
+</span><span class='line'>  /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit (compatibility version 45.0.0, current version 1265.21.0)
+</span><span class='line'>  /System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices (compatibility version 1.0.0, current version 48.0.0)
+</span><span class='line'>  /System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics (compatibility version 64.0.0, current version 600.0.0)
+</span><span class='line'>  /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 1056.16.0)
+</span><span class='line'>  /usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now just locating the missing <em>.dylib</em> files and copying it into the directories it is being looked for, fixed the problem.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ locate libgthread-2.0
+</span><span class='line'>/usr/local/Cellar/glib/2.42.0/lib/libgthread-2.0.0.dylib
+</span><span class='line'>/usr/local/Cellar/glib/2.42.0/lib/libgthread-2.0.dylib
+</span><span class='line'>$ cp /usr/local/Cellar/glib/2.42.0/lib/libgthread-2.0.0.dylib /usr/local/lib/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it. Repeat this for any other missing <em>dylib</em>s and you&rsquo;re done.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/16/introducing-a-little-more-entropy/">JustLog: Oct-Nov 2014</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-16T23:41:53+05:30" pubdate data-updated="true">Nov 16<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Working at a big corporation has its own kind of perks. No, I&rsquo;m not talking about free food and stuff. I&rsquo;m getting more of what I missed in the first 18 months after graduation &ndash; Time. However, I find it hard to delegate priorities and consequently have a feeling that I&rsquo;m not exploiting the one perk for which I quit working at a startup.</p>
+
+<p>I still somehow have an instinct, that things will improve over time. To keep negativity at its lowest, I&rsquo;m leaving my workplace late, and using the air gap after work to read/do/gym. Still, using the workplace for something other than bringing value to the organization is not something I&rsquo;m comfortable with. I&rsquo;ve got no choice untill I get my Internet connection in my place to get its act together. At work, working on a huge code base, that has little framework and a lot of brilliance built into throughly random places <em>is</em> exciting!</p>
+
+<p>I haven&rsquo;t forgot that <a href="http://vanitypro.herouapp.com">vanity</a> isn&rsquo;t complete. Will have to find some slots of time and interest to resume working on it. I&rsquo;ve also bootstrapped an interesting take on the broken world of documents. More on it later. There&rsquo;s just too much stuff that amuses me, that most of the time I just keep thinking about stuff that I&rsquo;m not able to do, thereby increasing my negativity syndrome. I&rsquo;ve scheduled a <a href="https://docs.zoho.com/sheet/ropen.do?rid=fs79pc7ed54b87f50432a88c2efb40c297ea6">time table</a>, that I don&rsquo;t think I will keep up with &ndash; to mitigate the <em>syndrome</em> :&ndash;)</p>
+
+<p>I&rsquo;m in deep shit with friends. Normally, I don&rsquo;t care when people think they are a kind of gifted smarties. I strongly believe in what PG says. Smart people have no pressure to act smart. The rest of them are the ones who try so hard. Well, now it seems I can&rsquo;t stand such behaviour. I&rsquo;m with people who try so hard to seem smart, that more than often I have to hide my temper when conversing with them. I&rsquo;ll have to run away from these people &ndash; as far as I can, as fast as I can. I&rsquo;m sure I&rsquo;ll have to deal with this type of people, throughout my span. Will have to learn to deal with them, than losing my temper or running away.</p>
+
+<p>So, that&rsquo;s about it. I&rsquo;m working stuff &ndash; reading stuff &ndash; enjoying things &ndash; running away from some &ndash; wasting time.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/12/public-data-of-public-officials/">Public Data of Public Officials</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-12T02:36:42+05:30" pubdate data-updated="true">Oct 12<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>New Delhi has opened up attendance data of government officials as  public, realtime data on <a href="http://attendance.gov.in">attendance.gov.in</a>. This level of transparency &amp; its effects is going to have an awesome impact on the nation&rsquo;s services/activities for the public.</p>
+
+<p>Expecting more data to be liberated out of files &amp; records, lying around in racks of government offices. More publicly available data will drive a better class of softwares and applications.</p>
+
+<p>Imagine making GPS data of all the trains running in the city, publicly available. With that, I could never think of a day when I&rsquo;ll miss a train and wait for another twenty minutes on the platform. That&rsquo;s just an example and there is so much more.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/12/devlog-6/">DevLog: 6</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-12T01:15:38+05:30" pubdate data-updated="true">Oct 12<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>Polished up <a href="http://vanitypro.herokuapp.com">vanity</a> a bit and deployed it on <a href="http://heroku.com">heroku</a>. Going live, even if it&rsquo;s pretty unfinished has its own sort of happiness :&ndash;)</li>
+<li>I&rsquo;m reading like a monster. Yes, something that I really missed for more than a year, while I was working hardcore for my previous employer. I&rsquo;m reading totally random articles, books, anything and everything that could trigger and feed my curiosity. Hope I get enough time to keep it going. Right now on my desk are <em>Operating Systems: Design and Implementation</em> and <em>Distributed Systems</em>, both written by Tanenbaum. I&rsquo;ve also got SICP and TCPL, that I occasionaly scan on.</li>
+<li>Did I mention previous employer? Yea, I had to quit. Don&rsquo;t mistake, I had an awesome year(and almost a half) with the startup&rsquo;s founder and colleague. Got to learn an awful lot, that&rsquo;d probably stay with me for the rest of my career. But, I had to stop what I was doing for reasons that I&rsquo;ll have to dissect later.</li>
+<li>What next? Seems like I&rsquo;ll be getting onboard <a href="http://zoho.com">Zoho</a>. From an early stage startup to an enterprise that serves millions. It&rsquo;s going to be one hell of a ride to fit myself in. Who knows? might be fun.</li>
+<li>Also, I&rsquo;m slowly getting a closer look at the system level stuff about computers. I flirted with C and found out how memory allocation happens for datatypes, for example. I&rsquo;ll be trying assembly in a short while, to understand Computer Architecture and stuff!</li>
+<li>Spent a night dockerizing <a href="http://odoo.com">odoo</a>, just to find out that there&rsquo;s already one published very recently. Shit happens.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/10/scala-up/">Scala Up</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-10T14:42:06+05:30" pubdate data-updated="true">Aug 10<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The interesting stuff about scala is the way it supports object oriented way of programming, but also induces you to do it the functional way. There are languages out their alike, say python. But python never <em>induces</em> you to do things the functional way. It doesn&rsquo;t even make you bother about the way you code. Scala does.</p>
+
+<p>You do a loop, there your consciensce caught you. You use a <code>var</code> instead of <code>val</code>, again it caught you. Even writing a function that doesn&rsquo;t return anything, pricks you in some way. So, you check whether the function mutates state or just does I/O stuff.</p>
+
+<p>So far, I&rsquo;m impressed.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/04/x-frame-options/">X-Frame-Options</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-04T01:19:34+05:30" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I like the level of control we could afford for our web app, by simply setting an HTTP Header(<em>X-Frame-Options</em>).</p>
+
+<p>If you don&rsquo;t want to make any page/data served by your app, embeddable into an iframe, you could always set <code>X-Frame-Options</code> header to <code>DENY</code>.</p>
+
+<p>Other possible values include <code>SAMEORIGIN</code>(to allow embedding only inside your app&rsquo;s domain) and <code>ALLOWALL</code>(to allow embedding anywhere). Should be handy when configuring nginx.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -186,23 +1001,23 @@ Seriously, I think resumes are the most broken end of a recruiting process, atle
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/03/02/this-guy/">This Guy.</a>
+        <a href="/blog/2015/11/08/driving/">Driving</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/02/22/scratch/">Scratch</a>
+        <a href="/blog/2015/09/18/the-most-important-question/">The Most Important Question</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/02/16/log-16/">Log 16, Feb 2014</a>
+        <a href="/blog/2015/08/11/developer-from-good-to-great/">Developer: From Good to Great</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/12/08/c-code-for-barebones-kernel-tutorial-at-osdev-dot-org-explained/">C Code for Barebones Kernel Tutorial @ OsDev.org - Explained</a>
+        <a href="/blog/2015/08/04/the-future-of-internet-is/">The Future of Internet Is</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/12/08/installing-qemu-with-brew/">Installing Qemu With Brew</a>
+        <a href="/blog/2015/05/18/notes-on-my-first-hackathon/">Notes on My First Hackathon</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Archive Of Hacks]]></title>
   <link href="http://techster.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://techster.herokuapp.com/"/>
-  <updated>2015-03-04T02:50:42+05:30</updated>
+  <updated>2015-11-08T21:06:48+05:30</updated>
   <id>http://techster.herokuapp.com/</id>
   <author>
     <name><![CDATA[Joe Lewis]]></name>
@@ -12,6 +12,149 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Driving]]></title>
+    <link href="http://techster.herokuapp.com/blog/2015/11/08/driving/"/>
+    <updated>2015-11-08T21:00:27+05:30</updated>
+    <id>http://techster.herokuapp.com/blog/2015/11/08/driving</id>
+    <content type="html"><![CDATA[<p>Not very long ago, I&rsquo;ve bought a motorbike for myself. On an average there&rsquo;s atleast three to four moments of, let&rsquo;s just call them &ldquo;WTF Just Happened Moments&rdquo;, in a 30 km drive.</p>
+
+<p>There&rsquo;s a likeliness of atleast 1% of those WTF moments to turn out to be fatal. If I keep driving 60 kms back and forth to office everyday, my math says I wouldn&rsquo;t last 30 days.</p>
+
+<p>Is there anyway I can last more than 30 days and still drive everyday? Well, for one I can drive less kms per day, which could mean shift my workplace or my home. Cross. I can try confining my drives to safer road. Roads that doesn&rsquo;t home much of angry truck drivers and insane bus drivers who just burst their way out of traffic; who&rsquo;d sell their soul to devil than press feet against the break pedal. Again meaning shift my workplace to somewhere within city limits. Not an option I could try right now. Cross.</p>
+
+<p>Looks like there&rsquo;s no much things I could do about this. I&rsquo;ll have to either bet my math or just don&rsquo;t drive that much. I&rsquo;m better off with the second one. Check. Just don&rsquo;t drive for long on unsafe roads, frequently. Let&rsquo;s see if that keeps me from dying :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Most Important Question]]></title>
+    <link href="http://techster.herokuapp.com/blog/2015/09/18/the-most-important-question/"/>
+    <updated>2015-09-18T23:42:37+05:30</updated>
+    <id>http://techster.herokuapp.com/blog/2015/09/18/the-most-important-question</id>
+    <content type="html"><![CDATA[<p><strong>What&rsquo;s the best thing you could utilise your life for?</strong></p>
+
+<p>Now this is a rather important question. It&rsquo;s not that as if I came here for a reason and stuff, like in the movies. But there definitely is a responsibility for us to make this universe dynamics, play better by putting ourselves to use.</p>
+
+<p>If what I&rsquo;ve said isn&rsquo;t clear enough, it&rsquo;s as simple as this &mdash; we as human beings have a moral responsibility to make this universe a better place by putting our best talent to do what&rsquo;s best to do.</p>
+
+<p>It&rsquo;s not very often that I reflect my current stand with this. But when I do I get a solid clarity on what to do next and especially what not to do.</p>
+
+<p>Now what am I good at is itself a complicated, unstable and a tricky question. Unstable because it&rsquo;s a function of time, and might evolve overtime. But evolving has an interesting property of convergence. The convergence to, is what we&rsquo;ve got to keep an eye on.</p>
+
+<p>Mostly it takes atleast your early twenties and sometimes late teens to find out really what we are good at. It does take that much time to figure it out. I&rsquo;ll tell you why. I strongly believe in the famous philosophy of practice makes it perfect. If you want to be good at something you got to do it for a sufficiently long enough period of time and do it hardcore. Now you can only do that for so long only if you have your heart in it. This is where <em>tricky</em> comes in. You could be doing something repeatedly out of situational compulsion and even good at it, but without any interest to keep doing it for ten more years. So it all boils down to picking the right one as your strength based on what you&rsquo;ve done and what you have your soul on.</p>
+
+<p>When you get that straight, the big question is to put it to right use. There&rsquo;s no really a periodic table to figure this out. In somecases it&rsquo;s obvious. Incase I&rsquo;m good at astronomy and things out there in space, the best thing for me to do would be finding out what&rsquo;s out there and letting the knowledge available freely. That would itself bring immensely good consequences. In some cases it isn&rsquo;t that obvious. Say, I&rsquo;m a cricketer. Do I play a role in making the universe a better place. At first thought it doesn&rsquo;t look like so. But if I do what I do best and keep entertaining people, god knows what people came together because of it and what friendships sprung up out of it. There are consequences and a lot of goodness in them, except they are what I call second level consequences, not direct.</p>
+
+<p>Let&rsquo;s say you&rsquo;ve got talent that could have direct consequences, how do you decide what&rsquo;s best to do at any point of time? There&rsquo;s a trick for that.
+Get out of reality and picture a world that&rsquo;s far from future. What do you see happening? What part of that world can you help make reality? There, you got your answer.</p>
+
+<p>Maybe what you already are doing with your life complements what you just thought you should be doing. In most cases it doesn&rsquo;t. That&rsquo;s when you got to align and straighten up your actions and motives. Believe me, it works.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Developer: From Good to Great]]></title>
+    <link href="http://techster.herokuapp.com/blog/2015/08/11/developer-from-good-to-great/"/>
+    <updated>2015-08-11T02:35:34+05:30</updated>
+    <id>http://techster.herokuapp.com/blog/2015/08/11/developer-from-good-to-great</id>
+    <content type="html"><![CDATA[<p>Like any art, programming has its stages &ndash; Amateurs, Average and Experts. Time and again, I&rsquo;ve hit on the question &mdash; how to get from good to great? This likely is the most important question a programmer should ask himself. Atleast, at some point of their career.</p>
+
+<p>To end up with a satisfying answer, let&rsquo;s first put down what &lsquo;expertise&rsquo; actually mean. Particularly, in software engineering.</p>
+
+<ul>
+<li>An expert sees an obvious, easy solution to difficult problems.</li>
+<li>When the answer isn&rsquo;t obvious, he knows where to find them &amp; how to.</li>
+<li>He understands things at a deeper level. Deep enough, that he might explain them at every level of abstraction below. It doesn&rsquo;t have to be too many layers deep till the pulp of the onion. Just that, the more deeper the layers, the more good.</li>
+<li>His solutions are concrete, easy to maintain and to re-apply.</li>
+<li>He can tell what&rsquo;s wrong with other not-so-good solutions, supported by facts &amp; not by opinions.</li>
+<li>His code is often cleverly expressive.</li>
+</ul>
+
+
+<p>The list may go down still, but as you can see being an expert isn&rsquo;t sorcery. It&rsquo;s something that you might eventually become, just by doing what you do repeatedly.</p>
+
+<p>What are the odds, that you don&rsquo;t get better by doing something again and again? Is it possible to be consistently practicing, yet manage to remain a noob?</p>
+
+<p>Yes.</p>
+
+<p>It happens when you are skeptical about going out of your way. It happens when you stop looking for better solutions. It happens when you don&rsquo;t realize that there are infact better solutions. It happens when you compromise easy with best. It happens when you lack knowledge. It happens when you lack knowledge that you lack knowledge.</p>
+
+<p>I don&rsquo;t yet have a design pattern to get out of good and jump to great. What I do have is some directions which might take you somewhere, if not nowhere.</p>
+
+<ul>
+<li>Code everyday. Ship some damn thing that works.</li>
+<li>Do. Not. Code. In. Isolation. A lone Wolf will never know it indeed is a Wolf and not a Lion. The Internet and the people in it are your friends.</li>
+<li>Read. Keep scanning things that change your perspective. Get your priority straight though. If you keep reading for days together without actually doing anything productive/meaningful/complimentary to what you&rsquo;ve read &mdash; stop.</li>
+<li>Internet and the awesome people in it is enough. If you happen to find someone physically available nearby, who&rsquo;s good enough to be a mentor, it&rsquo;s 10x better. Even so, Internet is the best for introverts.</li>
+</ul>
+
+
+<p>Just keeping upto these naive, but important ways should keep you on track. Like all other pieces of advice, they&rsquo;re all easier said than done. I&rsquo;ll try to keep up with atleast some of them, if not all. If you&rsquo;ve got anything to add, to get from good to great &ndash; shoot up your email client and <a href="mailto:joelewis@zohocorp.com">write to me</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Future of Internet Is]]></title>
+    <link href="http://techster.herokuapp.com/blog/2015/08/04/the-future-of-internet-is/"/>
+    <updated>2015-08-04T00:05:00+05:30</updated>
+    <id>http://techster.herokuapp.com/blog/2015/08/04/the-future-of-internet-is</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve always worried about the centralization of the Internet. Infact, <a href="https://medium.com/@vettijoe/give-the-internet-fucking-back-219e87666d38">my first post on medium</a> was a rant about this.</p>
+
+<p>Today I&rsquo;ve found someone who has <a href="https://medium.com/matter/the-web-we-have-to-save-2eb1fe15a426">articulated it perfectly, brilliantly and beautifully</a>. I can&rsquo;t agree more. He writes about how hyperlinks are loosing their power, so-called Streams are ruining reality. He also worries about how the formerly text dominant internet is moving towards a worse end.
+A brilliant piece of writing from a blogger who was cut off from the internet some 7 years back, and suddenly came back to find the present version of it. Must read <a href="https://medium.com/matter/the-web-we-have-to-save-2eb1fe15a426">https://medium.com/matter/the-web-we-have-to-save-2eb1fe15a426</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Notes on My First Hackathon]]></title>
+    <link href="http://techster.herokuapp.com/blog/2015/05/18/notes-on-my-first-hackathon/"/>
+    <updated>2015-05-18T01:05:06+05:30</updated>
+    <id>http://techster.herokuapp.com/blog/2015/05/18/notes-on-my-first-hackathon</id>
+    <content type="html"><![CDATA[<p>I used to be a little skeptical about attending hackathons. Mostly because I don’t want to be coding to impress a panel of judges. It just doesn’t work that way. I still had a reason to knock the doors at <a href="http://savethehacker.com">Save The Hacker</a>.</p>
+
+<p>I wanted to get out of my comfort zone and meet new people. Also, I wanted to get started on an idea I had been long procrastinating on. Attending it paid off. It was fun and I actually got shit done. Here are a few things I learnt:</p>
+
+<ul>
+<li>Wearing on your headset and just coding is nice. Taking a walk around and starting conversations with random new coders is nicer.</li>
+<li>People don’t want to listen to your Idea. They want to know how they could use it for themselves. Give them that straight away and explaining gets easier.</li>
+<li>Hackathons are for hacks. Your hack need not do ten things cool. It just needs to do one thing correctly.</li>
+<li>People don’t want to watch you as you type text. To give a better demonstration capture a video run-through of your app. They will ask to play with your app if they liked the quick screen records.</li>
+<li>People who ask you to explain your project partly do it for getting to know your project. The rest is just to start a casual conversation to know more about you. So don’t stop it there.</li>
+<li>While demonstrating don’t start with stories. Put out the problem and say you’ve solved it. You don’t even have to explain them how. Just get to your app run-through as soon as you could.</li>
+<li>Do not code the entire 24/48 hours. Winning is just a tiny bit of hackathons. Walk. Converse. Sleep.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Medium Debut]]></title>
+    <link href="http://techster.herokuapp.com/blog/2015/04/07/medium-debut/"/>
+    <updated>2015-04-07T22:48:38+05:30</updated>
+    <id>http://techster.herokuapp.com/blog/2015/04/07/medium-debut</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m not really sorry, that my first most medium post had to be a rant :&ndash;)
+Here&rsquo;s it &ndash; <a href="https://medium.com/@vettijoe/give-the-internet-fucking-back-219e87666d38">Give The Internet Fucking Back</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Why Most Hackers Aren't Popular]]></title>
+    <link href="http://techster.herokuapp.com/blog/2015/03/11/why-most-hackers-arent-popular/"/>
+    <updated>2015-03-11T23:24:05+05:30</updated>
+    <id>http://techster.herokuapp.com/blog/2015/03/11/why-most-hackers-arent-popular</id>
+    <content type="html"><![CDATA[<h3>Mattering Matters</h3>
+
+<p>Yes, smart people want to be popular. Also, yes they don&rsquo;t push enough to be popular than to be smart. <a href="http://www.paulgraham.com/nerds.html">PG puts this beautifully in his essay</a>. That&rsquo;s probably why most smart kids who grow up thinking that they&rsquo;re gonna be popular someday, don&rsquo;t.</p>
+
+<p>The key is not to be popular, but to <em>matter</em>. You might like coding. Coding, and bringing something out of nothing is in itself takes a lot of smartness in multiple levels. But, <em>bringing something out of nothing</em> &ndash; is nothing if whatever you brought doesn&rsquo;t matter. That is the problem.</p>
+
+<p>Most smart people, (or hackers) don&rsquo;t care what they bring out. They like hacking. They like breaking things and understanding stuff. They are curious and they like to be curious. What they don&rsquo;t care about is &ndash; the usefullness of their curiousity. That&rsquo;s where the difference rests. Hackers who create things that matter to a plumpy amount of population, become popular. The rest, even though being smart don&rsquo;t care about what matters and what not, thus retaining from popularity.</p>
+
+<p>I don&rsquo;t think this is bad in anyway. Just don&rsquo;t ignore smart people even if they don&rsquo;t be as popular as you anticipate.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[This Guy.]]></title>
