@@ -4,84 +4,66 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Joe's Web Index</title>
-
-    <!-- Bootstrap -->
-    <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./custom.css" rel="stylesheet">
-    <!-- start Mixpanel -->
-    <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
-    for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-    mixpanel.init("a33b3621dc86b32b59cf4cfa5fbadcca");</script>
-    <!-- end Mixpanel -->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <title>Joe Lewis</title>
   </head>
+  <style>
+      body {
+        font-family: 'Lato', sans-serif;
+      }
+
+      .container {
+          width: 60%;
+          margin: 10% auto;
+      }
+
+      .content-container {
+          margin-top: 50px;
+      }
+
+      .heading-container {
+          width: 100%;
+          height: 80px;
+      }
+
+      .dp {
+        height: 100px;
+        float: left;
+        border: 1px solid #999;
+        border-radius: 5px;
+      }
+
+      .title-container {
+        float: left;
+        margin-left: 20px;
+      }
+
+      .title {
+          margin: 0px;
+      }
+
+  </style>
   <body>
     <div class="container">
       <div class="row">
-        <div class="jumbotron jumbotron-custom">
-          <p>Joe is a hacker, who writes code for awesome softwares right from his messy room somewhere in the south of Chennai, India. </p>
-          <p>Mostly, he codes out of IITM Research Park's Incubator, where he and two others are building a nextGen Document Platform called Humble Paper.</p>
-          <p>When not coding, he usually sleeps. Or grabs junk food and watches movies.</p>
+        <div class="heading-container">
+            <img class="dp" src="https://avatars3.githubusercontent.com/u/1254105?s=460&v=4" />
+            <div class="title-container">
+                <h1 class="title">Joe Lewis</h1>
+                <div class="subtitle">Creator.</div>
+            </div>
+        </div>
+
+        <div class="content-container jumbotron jumbotron-custom">
+          <p>I make things that run over the web. Most stuff I build empower people to create, share & collaborate over the web.<br/>
+          I currently work at Zoho, with a team building a <a href="https://writer.zoho.com">word processor</a> that runs on the browser.</p>
+          
+          <p>This is where I <a href="http://hexopress.com/@joe">write</a>
+          <br/>This is where I publish most of my public <a href="https://github.com/joelewis">code</a>
+          <br/> You can find me on Hacker News <a href="https://news.ycombinator.com/threads?id=lewisjoe">as lewisjoe</a>
+          <br/> I occasionally <a href="https://twitter.com/@vettijoe">tweet</a></p>
         </div>
       </div>
-      <div class="row">
-
-        <div class="link-item" onclick="mixpanel.track('Github Visit');">
-          <a href="http://github.com/joelewis">
-            <div class="link-item-title">
-              Code
-            </div>
-            <div class="link-item-subtitle">
-              Projects and more...
-            </div>
-           </a>
-        </div>
-
-        <div class="link-item" onclick="mixpanel.track('Blog Visit');">
-          <a href="http://techster.herokuapp.com">
-            <div class="link-item-title">
-              Blog
-            </div>
-            <div class="link-item-subtitle">
-              Stories, links & rants.
-            </div>
-           </a>
-        </div>
-
-        <div class="link-item" onclick="mixpanel.track('Twitter visit');">
-          <a href="https://twitter.com/vettijoe">
-            <div class="link-item-title">
-              Twitter
-            </div>
-            <div class="link-item-subtitle">
-              Thoughts under char[140]
-            </div>
-           </a>
-        </div>
-
-        <div class="link-item" style="width: 400px;" onclick="mixpanel.track('HN Comment Visit');">
-          <a href="https://news.ycombinator.com/threads?id=lewisjoe">
-            <div class="link-item-title">
-              On HN
-            </div>
-            <div class="link-item-subtitle">
-              Comments on <br/> Hacker News
-            </div>
-           </a>
-        </div>
-
     </div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script>
-    $(function() {
-      $('body').hide();
-      $('body').fadeIn(500);
-    });
-
-    </script>
   </body>
 </html>
