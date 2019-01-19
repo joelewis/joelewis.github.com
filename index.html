@@ -8,7 +8,9 @@
     <title>Joe Lewis</title>
   </head>
   <style>
-      body {
+
+@media only screen and (min-width: 600px) {
+    body {
         font-family: 'Lato', sans-serif;
       }
 
@@ -23,7 +25,7 @@
 
       .heading-container {
           width: 100%;
-          height: 80px;
+          min-height: 80px;
       }
 
       .dp {
@@ -41,6 +43,45 @@
       .title {
           margin: 0px;
       }
+}
+
+
+@media only screen and (max-width: 600px) {
+    body {
+        font-family: 'Lato', sans-serif;
+      }
+
+      .container {
+          width: 60%;
+          margin: 10% auto;
+      }
+
+      .content-container {
+          margin-top: 50px;
+      }
+
+      .heading-container {
+          width: 100%;
+          min-height: 80px;
+      }
+
+      .dp {
+        height: 100px;
+        /* float: left; */
+        border: 1px solid #999;
+        border-radius: 5px;
+      }
+
+      .title-container {
+        /* float: left; */
+        /* margin-left: 20px; */
+      }
+
+      .title {
+          margin: 0px;
+      }
+}
+
 
   </style>
   <body>
